@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../api_bank_front.css">
+    <script src="../api_bank_front.js"></script>
+    <title>Hola Banco Inicio</title>
+</head>
+<body>
+    <h1>Te deseamos una excelente jornada laboral</h1>
+    <h2>Por favor selecciona tu usuario</h2>
+    
+    <form id="formulario" action="{{ url_for('handle_redirect') }}" method="GET"></form>
+    
+    <script>
+        function crearBotones(data) {
+            const form = document.getElementById('formulario');
+            const buttonContainer = document.createElement('div');
+
+            data.forEach(item => {
+                const button = document.createElement('button');
+                button.type = 'submit';
+                button.textContent = item[1];
+                buttonContainer.appendChild(button);
+            });
+
+            form.appendChild(buttonContainer);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:5000/clientes')
+                .then(response => response.json())
+                .then(data => crearBotones(data))
+                .catch(error => console.error(`Este es el error: ${error}`));
+        });
+    </script>
+</body>
+</html>
